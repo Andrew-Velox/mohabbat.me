@@ -39,11 +39,12 @@ export default function VantaBackground() {
           minWidth: 200.00,
           scale: 1.00,
           scaleMobile: 1.00,
-          color: isDark ? 0x202020 : 0x5f005f, // Dark blue for dark mode, bright blue for light mode
+          color: isDark ? 0x886000 : 0x886000, // Dark blue for dark mode, bright blue for light mode
           waveHeight: isDark ? 15 : 20,
           waveSpeed: 0.5,
           zoom: isDark ? 0.8 : 1.2
         });
+        // 0x202020
       } else {
         // Retry if VANTA is not loaded yet
         timeoutId = setTimeout(initVanta, 100);

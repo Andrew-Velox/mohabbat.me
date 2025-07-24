@@ -9,7 +9,7 @@ export default function Home() {
 
         <div className="flex-shrink-0 touch-none select-none">
         <Image
-          src="/Kaneki_Ken.gif"
+          src="/fin2.gif"
           alt="Ken"
           width={300}
           height={300}
