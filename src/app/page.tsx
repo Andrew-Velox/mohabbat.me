@@ -1,23 +1,19 @@
 import Navbar from '../components/Navbar';
 import TypingText from '../components/TypingText';
-import Image from 'next/image';
+import ProfileImage from '../components/ProfileImage';
 
 export default function Home() {
   return (
     <main className="w-full max-w-4xl mx-auto px-4 py-8 flex flex-col items-center justify-center gap-6 sm:gap-8 relative z-20 touch-none -mt-20 sm:mt-0">
         <Navbar />
 
-        <div className="flex-shrink-0 touch-none select-none">
-        <Image
+        <ProfileImage
           src="/fin2.gif"
           alt="Ken"
           width={300}
           height={300}
           className="w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] rounded-full object-cover border-4 border-white/30 dark:border-white/20 backdrop-blur-sm mx-auto shadow-2xl pointer-events-none"
-          draggable={false}
-          unoptimized
         />
-      </div>
 
       <div className="flex flex-col gap-4 sm:gap-6 items-center text-center touch-none select-none">
         <h1 className="text-4xl sm:text-6xl font-bold text-white drop-shadow-2xl">Andrew-Velox</h1>
