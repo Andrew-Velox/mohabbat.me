@@ -2,12 +2,17 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  
+  // Check if we're on the about page
+  const isAboutPage = pathname === '/about';
 
   useEffect(() => {
     // Check initial theme
@@ -72,7 +77,11 @@ export default function Navbar() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`fixed top-6 right-6 z-50 p-2 transition-colors drop-shadow-lg ${
-          isDarkMode ? 'text-white hover:text-white/70' : 'text-white hover:text-gray-600'
+          isDarkMode 
+            ? 'text-white hover:text-white/70' 
+            : isAboutPage 
+              ? 'text-gray-800 hover:text-gray-600' 
+              : 'text-white hover:text-gray-600'
         }`}
         aria-label={isOpen ? "Close menu" : "Open menu"}
       >
@@ -95,11 +104,23 @@ export default function Navbar() {
           {!isThemeLoaded ? (
             // Skeleton loading for menu items
             <>
-              <div className="px-4 py-3 rounded-lg border border-white/20 bg-white/20 animate-pulse">
-                <div className="h-5 bg-white/30 rounded"></div>
+              <div className={`px-4 py-3 rounded-lg border animate-pulse ${
+                isAboutPage 
+                  ? 'border-gray-700/50 bg-gray-800/50' 
+                  : 'border-white/20 bg-white/20'
+              }`}>
+                <div className={`h-5 rounded ${
+                  isAboutPage ? 'bg-gray-600/50' : 'bg-white/30'
+                }`}></div>
               </div>
-              <div className="px-4 py-3 rounded-lg border border-white/20 bg-white/20 animate-pulse">
-                <div className="h-5 bg-white/30 rounded"></div>
+              <div className={`px-4 py-3 rounded-lg border animate-pulse ${
+                isAboutPage 
+                  ? 'border-gray-700/50 bg-gray-800/50' 
+                  : 'border-white/20 bg-white/20'
+              }`}>
+                <div className={`h-5 rounded ${
+                  isAboutPage ? 'bg-gray-600/50' : 'bg-white/30'
+                }`}></div>
               </div>
             </>
           ) : (
@@ -110,18 +131,22 @@ export default function Navbar() {
                 className={`block px-4 py-3 rounded-lg border transition-all duration-200 ease-out transform hover:scale-[1.02] hover:-translate-y-1 ${
                   isDarkMode 
                     ? 'bg-black/40 border-white/20 text-white hover:bg-black/60 hover:text-white/95 hover:shadow-lg hover:shadow-black/20' 
-                    : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
+                    : isAboutPage
+                      ? 'bg-gray-800/90 border-gray-700/50 text-white hover:bg-gray-700/90 hover:text-white/95 hover:shadow-lg hover:shadow-gray-800/30'
+                      : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
                 }`}
                 onClick={() => setIsOpen(false)}
               >
                 <span className="font-medium">Home</span>
               </Link>
               <Link 
-                href="#about" 
+                href="/about"
                 className={`block px-4 py-3 rounded-lg border transition-all duration-200 ease-out transform hover:scale-[1.02] hover:-translate-y-1 ${
                   isDarkMode 
                     ? 'bg-black/40 border-white/20 text-white hover:bg-black/60 hover:text-white/95 hover:shadow-lg hover:shadow-black/20' 
-                    : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
+                    : isAboutPage
+                      ? 'bg-gray-800/90 border-gray-700/50 text-white hover:bg-gray-700/90 hover:text-white/95 hover:shadow-lg hover:shadow-gray-800/30'
+                      : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
                 }`}
                 onClick={() => setIsOpen(false)}
               >

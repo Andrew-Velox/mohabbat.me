@@ -8,6 +8,9 @@ interface ProfileImageProps {
   className?: string;
 }
 
+// Global cache for media preloading
+const mediaCache = new Map<string, { loaded: boolean; element: HTMLVideoElement | HTMLImageElement }>();
+
 export default function ProfileImage({ src, alt, className }: ProfileImageProps) {
   const [mediaLoaded, setMediaLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -24,6 +27,23 @@ export default function ProfileImage({ src, alt, className }: ProfileImageProps)
   }, []);
 
   useEffect(() => {
+    // Check cache first
+    const cached = mediaCache.get(src);
+    if (cached && cached.loaded) {
+      setMediaLoaded(true);
+      setHasError(false);
+      return;
+    }
+
+    // Check sessionStorage for faster subsequent loads
+    const cacheKey = `media_${src}`;
+    const sessionCached = sessionStorage.getItem(cacheKey);
+    if (sessionCached === 'loaded') {
+      setMediaLoaded(true);
+      setHasError(false);
+      return;
+    }
+
     if (isVideo && videoRef.current) {
       const video = videoRef.current;
       
@@ -31,8 +51,10 @@ export default function ProfileImage({ src, alt, className }: ProfileImageProps)
       setMediaLoaded(false);
       setHasError(false);
       
-      // Force reload and play
-      video.load();
+      // Don't reload if already cached
+      if (!cached) {
+        video.load();
+      }
       
       const playVideo = async () => {
         try {
@@ -44,6 +66,10 @@ export default function ProfileImage({ src, alt, className }: ProfileImageProps)
           // Multiple attempts for iOS
           await video.play();
           setMediaLoaded(true);
+          
+          // Cache successful load
+          sessionStorage.setItem(cacheKey, 'loaded');
+          mediaCache.set(src, { loaded: true, element: video });
         } catch (error) {
           console.warn('Video autoplay failed, trying alternative approach:', error);
           
@@ -52,6 +78,11 @@ export default function ProfileImage({ src, alt, className }: ProfileImageProps)
             try {
               await video.play();
               setMediaLoaded(true);
+              
+              // Cache successful load
+              sessionStorage.setItem(cacheKey, 'loaded');
+              mediaCache.set(src, { loaded: true, element: video });
+              
               document.removeEventListener('touchstart', playOnInteraction);
               document.removeEventListener('click', playOnInteraction);
             } catch (e) {
@@ -70,8 +101,13 @@ export default function ProfileImage({ src, alt, className }: ProfileImageProps)
   }, [src, isVideo]);
 
   const handleLoad = () => {
+    const cacheKey = `media_${src}`;
     setMediaLoaded(true);
     setHasError(false);
+    
+    // Cache successful load
+    sessionStorage.setItem(cacheKey, 'loaded');
+    mediaCache.set(src, { loaded: true, element: new Image() });
   };
 
   const handleError = () => {
@@ -81,11 +117,14 @@ export default function ProfileImage({ src, alt, className }: ProfileImageProps)
   };
 
   const handleVideoLoaded = () => {
+    const cacheKey = `media_${src}`;
     setMediaLoaded(true);
     setHasError(false);
     
-    // Ensure video plays after loading
+    // Cache successful load
+    sessionStorage.setItem(cacheKey, 'loaded');
     if (videoRef.current) {
+      mediaCache.set(src, { loaded: true, element: videoRef.current });
       videoRef.current.play().catch(console.warn);
     }
   };
