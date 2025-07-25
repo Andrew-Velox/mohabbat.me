@@ -8,10 +8,8 @@ export default function Home() {
         <Navbar />
 
         <ProfileImage
-          src="/fin2.gif"
+          src="/Fin2.mp4"
           alt="Ken"
-          width={300}
-          height={300}
           className="w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] rounded-full object-cover border-4 border-white/30 dark:border-white/20 backdrop-blur-sm mx-auto shadow-2xl pointer-events-none"
         />
 
