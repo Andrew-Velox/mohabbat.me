@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="[color-scheme:light_dark]">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}
       >
         <MediaPreloader />
         <div className="min-h-screen">

@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <div className="flex flex-col items-center justify-center gap-8 sm:gap-12 -mt-20 sm:mt-0">
+    <div className="flex flex-col items-center justify-start gap-8 sm:gap-12 mt-8 sm:mt-12">
       {/* About Header */}
       <div className="text-center">
         <h1 className="text-4xl sm:text-6xl font-bold mb-4">About Me</h1>
