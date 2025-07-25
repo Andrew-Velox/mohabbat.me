@@ -6,6 +6,7 @@ import Link from 'next/link';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isThemeLoaded, setIsThemeLoaded] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,12 +15,19 @@ export default function Navbar() {
       const isDark = document.documentElement.classList.contains('dark') || 
                     window.matchMedia('(prefers-color-scheme: dark)').matches;
       setIsDarkMode(isDark);
+      setIsThemeLoaded(true); // Mark theme as loaded
     };
 
-    checkDarkMode();
+    // Small delay to prevent flash
+    const timer = setTimeout(checkDarkMode, 50);
 
     // Listen for theme changes
-    const observer = new MutationObserver(checkDarkMode);
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains('dark') || 
+                    window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setIsDarkMode(isDark);
+    });
+    
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class']
@@ -27,11 +35,17 @@ export default function Navbar() {
 
     // Listen for system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addListener(checkDarkMode);
+    const handleMediaChange = () => {
+      const isDark = document.documentElement.classList.contains('dark') || 
+                    window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setIsDarkMode(isDark);
+    };
+    mediaQuery.addListener(handleMediaChange);
 
     return () => {
+      clearTimeout(timer);
       observer.disconnect();
-      mediaQuery.removeListener(checkDarkMode);
+      mediaQuery.removeListener(handleMediaChange);
     };
   }, []);
 
@@ -78,28 +92,43 @@ export default function Navbar() {
         }`}
       >
         <div className="flex flex-col gap-3 min-w-[200px]">
-          <Link 
-            href="/" 
-            className={`block px-4 py-3 rounded-lg border transition-all duration-200 ease-out transform hover:scale-[1.02] hover:-translate-y-1 ${
-              isDarkMode 
-                ? 'bg-black/40 border-white/20 text-white hover:bg-black/60 hover:text-white/95 hover:shadow-lg hover:shadow-black/20' 
-                : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="font-medium">Home</span>
-          </Link>
-          <Link 
-            href="#about" 
-            className={`block px-4 py-3 rounded-lg border transition-all duration-200 ease-out transform hover:scale-[1.02] hover:-translate-y-1 ${
-              isDarkMode 
-                ? 'bg-black/40 border-white/20 text-white hover:bg-black/60 hover:text-white/95 hover:shadow-lg hover:shadow-black/20' 
-                : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="font-medium">About</span>
-          </Link>
+          {!isThemeLoaded ? (
+            // Skeleton loading for menu items
+            <>
+              <div className="px-4 py-3 rounded-lg border border-white/20 bg-white/20 animate-pulse">
+                <div className="h-5 bg-white/30 rounded"></div>
+              </div>
+              <div className="px-4 py-3 rounded-lg border border-white/20 bg-white/20 animate-pulse">
+                <div className="h-5 bg-white/30 rounded"></div>
+              </div>
+            </>
+          ) : (
+            // Actual menu items
+            <>
+              <Link 
+                href="/" 
+                className={`block px-4 py-3 rounded-lg border transition-all duration-200 ease-out transform hover:scale-[1.02] hover:-translate-y-1 ${
+                  isDarkMode 
+                    ? 'bg-black/40 border-white/20 text-white hover:bg-black/60 hover:text-white/95 hover:shadow-lg hover:shadow-black/20' 
+                    : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="font-medium">Home</span>
+              </Link>
+              <Link 
+                href="#about" 
+                className={`block px-4 py-3 rounded-lg border transition-all duration-200 ease-out transform hover:scale-[1.02] hover:-translate-y-1 ${
+                  isDarkMode 
+                    ? 'bg-black/40 border-white/20 text-white hover:bg-black/60 hover:text-white/95 hover:shadow-lg hover:shadow-black/20' 
+                    : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="font-medium">About</span>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>
