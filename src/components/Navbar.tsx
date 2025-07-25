@@ -70,31 +70,35 @@ export default function Navbar() {
       </button>
 
       {/* Dropdown Menu */}
-      <div className={`fixed top-20 right-6 z-40 transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
-        <div className={`backdrop-blur-md rounded-lg p-4 min-w-[200px] border ${
-          isDarkMode 
-            ? 'bg-black/30 border-white/20' 
-            : 'bg-white/30 border-gray-400/20'
-        }`}>
+      <div
+        className={`fixed top-20 right-6 z-40 transition-all duration-300 ease-in-out transform ${
+          isOpen 
+            ? 'opacity-100 visible translate-y-0 scale-100' 
+            : 'opacity-0 invisible -translate-y-2 scale-95'
+        }`}
+      >
+        <div className="flex flex-col gap-3 min-w-[200px]">
           <Link 
             href="/" 
-            className={`block px-3 py-3 transition-colors border-b last:border-b-0 ${
+            className={`block px-4 py-3 rounded-lg border transition-all duration-200 ease-out transform hover:scale-[1.02] hover:-translate-y-1 ${
               isDarkMode 
-                ? 'text-white hover:text-white/70 border-white/20' 
-                : 'text-gray-800 hover:text-gray-600 border-gray-400/20'
+                ? 'bg-black/40 border-white/20 text-white hover:bg-black/60 hover:text-white/95 hover:shadow-lg hover:shadow-black/20' 
+                : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
             }`}
+            onClick={() => setIsOpen(false)}
           >
-            Home
+            <span className="font-medium">Home</span>
           </Link>
           <Link 
             href="#about" 
-            className={`block px-3 py-3 transition-colors border-b last:border-b-0 ${
+            className={`block px-4 py-3 rounded-lg border transition-all duration-200 ease-out transform hover:scale-[1.02] hover:-translate-y-1 ${
               isDarkMode 
-                ? 'text-white hover:text-white/70 border-white/20' 
-                : 'text-gray-800 hover:text-gray-600 border-gray-400/20'
+                ? 'bg-black/40 border-white/20 text-white hover:bg-black/60 hover:text-white/95 hover:shadow-lg hover:shadow-black/20' 
+                : 'bg-white/40 border-gray-400/20 text-gray-800 hover:bg-white/60 hover:text-gray-700 hover:shadow-lg hover:shadow-gray-500/20'
             }`}
+            onClick={() => setIsOpen(false)}
           >
-            About
+            <span className="font-medium">About</span>
           </Link>
         </div>
       </div>
