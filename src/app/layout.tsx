@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MediaPreloader from "../components/MediaPreloader";
 import DynamicFooter from "../components/DynamicFooter";
+import LoadingScreen from "../components/LoadingScreen";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}
       >
+        <LoadingScreen />
         <MediaPreloader />
         <div className="min-h-screen">
           <div className="min-h-screen pb-16 flex items-center justify-center">
