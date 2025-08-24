@@ -10,7 +10,7 @@ export default function About() {
       {/* About Content */}
       <div className="space-y-6 text-lg max-w-3xl">
         <p>
-          Hey, I’m Mohabbat. On some platforms, you might know me as Andrew Velox. I like to keep my identity a bit hidden, so I use this kind of random made-up name.
+          Hey, I’m Mohabbat. On some platforms, you might know me as Andrew Velox. I like to keep my identity a bit hidden, so I use this kind of random made-up name. {'[>_<]'}
           <br /><br />
           I'm currently pursuing my BSc in Computer Science and Engineering at{' '}
           <a
