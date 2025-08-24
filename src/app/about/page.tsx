@@ -10,12 +10,18 @@ export default function About() {
       {/* About Content */}
       <div className="space-y-6 text-lg max-w-3xl">
         <p>
-          Hi, I'm Mohabbat — though in some platform, you might know me as Andrew Velox, a name I use to explore the tech world with a bit of mystery and creativity.
-
-          I'm currently pursuing my BSc in Computer Science and Engineering at Green University of Bangladesh, 
+          Hey, I’m Mohabbat. On some platforms, you might know me as Andrew Velox. I like to keep my identity a bit hidden, so I use this kind of random made-up name.
+          <br /><br />
+          I'm currently pursuing my BSc in Computer Science and Engineering at{' '}
+          <a
+            href="https://www.green.edu.bd/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-green-500 hover:text-green-700 transition-colors duration-200"
+          >
+            Green University of Bangladesh
+          </a>.
         </p>
-
-        
 
         {/* Skills/Technologies */}
         {/* <div className="pt-4 border-t">

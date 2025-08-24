@@ -50,3 +50,8 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #888 transparent;
 }
+
+.custom-blur {
+  backdrop-filter: blur(1.75px);
+  -webkit-backdrop-filter: blur(0.75px);
+}
