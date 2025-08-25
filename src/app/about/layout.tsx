@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar";
 
 export const metadata: Metadata = {
   title: 'About - Andrew-Velox',
-  description: 'Learn more about Andrew-Velox - Staff Engineer and Computer Science student',
+  description: 'Learn more about Andrew-Velox - Computer Science student',
 };
 
 export default function AboutLayout({

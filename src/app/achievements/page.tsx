@@ -65,7 +65,7 @@ function AchievementCard({ item }) {
 		>
 			{/* Timeline dot */}
 			<span className="absolute left-4 top-6 w-4 h-4 bg-blue-500 border-4 border-white rounded-full shadow" />
-			<div className="ml-16 bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 p-6 flex-1 transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
+			<div className="ml-16 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 p-6 flex-1 transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl bg-white/10 dark:bg-white/5 backdrop-blur-md">
 				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
 					<span className="font-semibold text-lg text-blue-700 dark:text-blue-400">
 						{item.link ? (
@@ -82,7 +82,7 @@ function AchievementCard({ item }) {
 						)}
 					</span>
 					{(item.place || item.date) && (
-						<span className="text-right text-gray-500 text-sm">
+						<span className="text-right text-gray-400 text-sm">
 							{item.place && <span>{item.place}</span>}
 							{item.place && item.date && <span className="mx-1">|</span>}
 							{item.date && <span>{item.date}</span>}
@@ -90,7 +90,7 @@ function AchievementCard({ item }) {
 					)}
 				</div>
 				{item.rank && (
-					<div className="italic text-green-600 font-bold text-sm mb-1">
+					<div className="italic text-green-400 font-bold text-sm mb-1">
 						Rank: {item.rank}
 					</div>
 				)}
@@ -101,26 +101,30 @@ function AchievementCard({ item }) {
 
 export default function Achievements() {
 	return (
-		<div className="max-w-3xl mx-auto px-4 py-10">
-			<h1 className="text-4xl font-bold mb-2 text-center">Achievements</h1>
-			<div className="w-24 h-1 bg-blue-500 mx-auto mb-10 rounded-full" />
-			<div className="space-y-16">
-				{achievementsData.map((section) => (
-					<div key={section.section}>
-						<h2 className="text-2xl font-bold mb-6 text-blue-700 dark:text-blue-400">
-							{section.section}
-						</h2>
-						<div className="relative">
-							{/* Timeline vertical line for this section */}
-							<div className="absolute left-6 top-0 w-0.5 h-full bg-blue-200" />
-							<div className="space-y-8">
-								{section.items.map((item) => (
-									<AchievementCard key={item.title} item={item} />
-								))}
+		<div className="min-h-screen w-full bg-gradient-to-r text-white">
+			<div className="flex flex-col items-center justify-center min-h-screen w-full">
+				<div className="max-w-3xl w-full mx-auto px-4 py-10">
+					<h1 className="text-4xl font-bold mb-2 text-center">Achievements</h1>
+					<div className="w-24 h-1 bg-blue-500 mx-auto mb-10 rounded-full" />
+					<div className="space-y-16">
+						{achievementsData.map((section) => (
+							<div key={section.section}>
+								<h2 className="text-2xl font-bold mb-6 text-white-700 dark:text-white-400">
+									{section.section}
+								</h2>
+								<div className="relative">
+									{/* Timeline vertical line for this section */}
+									<div className="absolute left-6 top-0 w-0.5 h-full bg-blue-200" />
+									<div className="space-y-8">
+										{section.items.map((item) => (
+											<AchievementCard key={item.title} item={item} />
+										))}
+									</div>
+								</div>
 							</div>
-						</div>
+						))}
 					</div>
-				))}
+				</div>
 			</div>
 		</div>
 	);
