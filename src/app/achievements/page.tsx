@@ -66,7 +66,7 @@ function AchievementCard({ item }) {
 			className="relative flex items-start"
 		>
 			{/* Timeline dot */}
-			<span className="absolute left-3 w-6 h-6 bg-blue-500 border-4 border-white rounded-full shadow" />
+			<span className="absolute left-3 w-6 h-6 bg-green-500 border-4 border-white rounded-full shadow" />
 			<div className="ml-16 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 p-6 flex-1 transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl bg-white/10 dark:bg-white/5 backdrop-blur-md">
 				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
 					<span className="font-semibold text-lg text-white-700 dark:text-white-400">
