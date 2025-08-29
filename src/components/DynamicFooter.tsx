@@ -62,16 +62,16 @@ const socialLinks = [
 
 export default function DynamicFooter() {
   const pathname = usePathname();
-  const isAboutPage = pathname === '/about';
+  const isNotHomePage = pathname !== '/';
 
   return (
     <footer className={`fixed bottom-0 left-0 right-0 w-full flex flex-row items-center justify-between gap-4 py-3 sm:py-6 border-t backdrop-blur-md px-4 sm:px-8 text-sm ${
-      isAboutPage 
+      isNotHomePage 
         ? 'border-gray-300 dark:border-gray-700  dark:bg-black/10' 
         : 'border-gray-200/20 dark:border-gray-800/20 bg-white/10 dark:bg-black/10'
     }`}>
       <div className={`text-xs sm:text-sm line-clamp-1 ${
-        isAboutPage 
+        isNotHomePage
           ? 'text-dark dark:text-white/80' 
           : 'text-white/80'
       }`}>
@@ -79,7 +79,7 @@ export default function DynamicFooter() {
       </div>
       <div className="flex gap-3 sm:gap-4 items-center">
         {socialLinks.map((link) => (
-          <FooterLink key={link.label} {...link} isAboutPage={isAboutPage} />
+          <FooterLink key={link.label} {...link} isAboutPage={isNotHomePage} />
         ))}
       </div>
     </footer>
