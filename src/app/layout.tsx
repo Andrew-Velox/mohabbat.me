@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="[color-scheme:light_dark]">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <LoadingScreen />
         <MediaPreloader />
