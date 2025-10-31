@@ -4,6 +4,7 @@ import "./globals.css";
 import MediaPreloader from "../components/MediaPreloader";
 import DynamicFooter from "../components/DynamicFooter";
 import LoadingScreen from "../components/LoadingScreen";
+import ChatBot from "../components/ChatBot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
           </div>
           <DynamicFooter />
         </div>
+        <ChatBot />
       </body>
     </html>
   );

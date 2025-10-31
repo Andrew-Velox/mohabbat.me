@@ -17,7 +17,7 @@ export default function Home() {
         />
 
       <div className="flex flex-col gap-4 sm:gap-6 items-center text-center touch-none select-none">
-        <h1 className="text-4xl sm:text-6xl font-bold text-white drop-shadow-2xl">Andrew-Velox</h1>
+        <h1 className="text-4xl sm:text-6xl font-bold text-white drop-shadow-2xl">Mohabbat</h1>
         <h2 className="text-xl sm:text-2xl font-medium text-white/90 drop-shadow-lg">
           <TypingText 
             text="Welcome To My Portfolio [>_<]" 
