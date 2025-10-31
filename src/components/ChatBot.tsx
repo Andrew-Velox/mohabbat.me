@@ -17,6 +17,10 @@ export default function ChatBot() {
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
+  // Replace with your deployed Render URL when ready
+  // const API_URL = 'https://your-app-name.onrender.com/api/chat';
+  const API_URL = 'https://simpeai.onrender.com/api/chat'; // Local development
+
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -39,7 +43,7 @@ export default function ChatBot() {
       setMessages([
         {
           id: 'welcome',
-          text: "Hi! I'm Mohabbat's AI assistant. Ask me anything about his skills, projects, or experience!",
+          text: "Hi! I'm Mohabbat (aka Andrew Velox). Ask me anything about my skills, projects, or experience!",
           sender: 'bot',
           timestamp: new Date(),
         },
@@ -79,27 +83,33 @@ export default function ChatBot() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const questionText = inputValue;
     setInputValue('');
     setIsLoading(true);
 
     try {
-      // Call your deployed assistant API
-      const response = await fetch('http://127.0.0.1:5000/api/query', {
+      // Call your Flask API
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          query: inputValue,
-          top_k: 5,
+          question: questionText,
         }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
 
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.success ? data.summary : 'Sorry, I encountered an error. Please try again.',
+        text: data.status === 'success' && data.answer 
+          ? data.answer 
+          : 'Sorry, I encountered an error. Please try again.',
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -109,8 +119,8 @@ export default function ChatBot() {
       console.error('Error sending message:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        // text: 'Sorry, I could not connect to the server. Please make sure the assistant server is running.',
-        text: 'Sorry, Due to Space issue I could not connect to the server. Please try again later.',
+        // text: 'Sorry, I could not connect to the server. Please make sure the API is running.',
+        text: 'Sorry, the API is sleeping wait a little bit [-_-]',
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -158,8 +168,8 @@ export default function ChatBot() {
                 </svg>
               </div>
               <div>
-                <h3 className="text-white font-semibold">Mohabbat's AI Assistant</h3>
-                <p className="text-white/80 text-xs">Always here to help</p>
+                <h3 className="text-white font-semibold">Chat with Mohabbat</h3>
+                <p className="text-white/80 text-xs">AI-powered assistant</p>
               </div>
             </div>
             <button
@@ -231,7 +241,7 @@ export default function ChatBot() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
+                placeholder="Ask me anything..."
                 className="flex-1 px-4 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-400"
                 disabled={isLoading}
               />
