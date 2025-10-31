@@ -17,11 +17,8 @@ export default function ChatBot() {
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Replace with your deployed Render URL when ready
-  // const API_URL = 'https://your-app-name.onrender.com/api/chat';
-  const API_URL = 'https://simpeai.onrender.com/api/chat'; // Local development
+  const API_URL = 'https://simpeai.onrender.com/api/chat';
 
-  // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -30,20 +27,22 @@ export default function ChatBot() {
     scrollToBottom();
   }, [messages]);
 
-  // Focus input when chat opens
+  // Focus input when chat opens with a small delay
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      inputRef.current.focus();
+      // Add a small delay to ensure the transition is complete
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
     }
   }, [isOpen]);
 
-  // Add welcome message when chat opens for the first time
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       setMessages([
         {
           id: 'welcome',
-          text: "Hi! I'm Mohabbat (aka Andrew Velox). Ask me anything about my skills, projects, or experience!",
+          text: "Hi! I'm Mohabbat's AI assistant. Ask me anything about his skills, projects, or experience! I respond as Mohabbat when he's unavailable",
           sender: 'bot',
           timestamp: new Date(),
         },
@@ -51,7 +50,6 @@ export default function ChatBot() {
     }
   }, [isOpen, messages.length]);
 
-  // Close chat when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -88,7 +86,6 @@ export default function ChatBot() {
     setIsLoading(true);
 
     try {
-      // Call your Flask API
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
@@ -119,7 +116,6 @@ export default function ChatBot() {
       console.error('Error sending message:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        // text: 'Sorry, I could not connect to the server. Please make sure the API is running.',
         text: 'Sorry, the API is sleeping wait a little bit [-_-]',
         sender: 'bot',
         timestamp: new Date(),
@@ -142,19 +138,19 @@ export default function ChatBot() {
       {/* Chat Container */}
       <div
         ref={chatContainerRef}
-        className={`fixed bottom-32 right-6 z-50 transition-all duration-300 ${
+        className={`fixed bottom-20 md:bottom-32 right-4 md:right-6 z-50 transition-all duration-300 ${
           isOpen
             ? 'opacity-100 visible translate-y-0'
             : 'opacity-0 invisible translate-y-4'
         }`}
       >
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 w-96 h-[500px] flex flex-col overflow-hidden">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 w-80 md:w-96 h-[450px] md:h-[500px] flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+          <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-3 md:p-4 flex items-center justify-between">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/20 flex items-center justify-center">
                 <svg
-                  className="w-6 h-6 text-white"
+                  className="w-5 h-5 md:w-6 md:h-6 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -168,7 +164,7 @@ export default function ChatBot() {
                 </svg>
               </div>
               <div>
-                <h3 className="text-white font-semibold">Chat with Mohabbat</h3>
+                <h3 className="text-white font-semibold text-sm md:text-base">Mohabbat&apos;s AI Assistant [&gt;_&lt;]</h3>
                 <p className="text-white/80 text-xs">AI-powered assistant</p>
               </div>
             </div>
@@ -193,7 +189,7 @@ export default function ChatBot() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-950">
+          <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-3 md:space-y-4 bg-gray-50 dark:bg-gray-950">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -202,13 +198,13 @@ export default function ChatBot() {
                 }`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                  className={`max-w-[80%] rounded-2xl px-3 py-2 md:px-4 ${
                     message.sender === 'user'
                       ? 'bg-blue-600 text-white'
                       : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700'
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+                  <p className="text-xs md:text-sm whitespace-pre-wrap">{message.text}</p>
                 </div>
               </div>
             ))}
@@ -233,7 +229,7 @@ export default function ChatBot() {
           </div>
 
           {/* Input */}
-          <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+          <div className="p-3 md:p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
             <div className="flex gap-2">
               <input
                 ref={inputRef}
@@ -242,7 +238,7 @@ export default function ChatBot() {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything..."
-                className="flex-1 px-4 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-400"
+                className="flex-1 px-3 py-2 md:px-4 text-xs md:text-sm rounded-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-400"
                 disabled={isLoading}
               />
               <button
@@ -255,7 +251,7 @@ export default function ChatBot() {
                 } text-white`}
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 md:w-5 md:h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -276,13 +272,13 @@ export default function ChatBot() {
       {/* Floating Chat Icon */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-20 right-6 z-50 w-14 h-14 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group ${
+        className={`fixed bottom-20 md:bottom-20 right-4 md:right-6 z-50 w-12 h-12 md:w-14 md:h-14 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group ${
           isOpen ? 'scale-0' : 'scale-100'
         }`}
         aria-label="Open chat"
       >
         <svg
-          className="w-6 h-6 text-white transition-transform group-hover:scale-110"
+          className="w-5 h-5 md:w-6 md:h-6 text-white transition-transform group-hover:scale-110"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
