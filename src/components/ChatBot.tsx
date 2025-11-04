@@ -13,11 +13,24 @@ export default function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null); // ✅ ADD THIS
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const API_URL = 'https://simpeai.onrender.com/api/chat';
+  // const API_URL = 'http://127.0.0.1:5000/api/chat';
+
+  // ✅ ADD: Load session_id from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedSessionId = localStorage.getItem('chat_session_id');
+      if (savedSessionId) {
+        setSessionId(savedSessionId);
+        console.log('Loaded session_id from localStorage:', savedSessionId);
+      }
+    }
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -27,10 +40,8 @@ export default function ChatBot() {
     scrollToBottom();
   }, [messages]);
 
-  // Focus input when chat opens with a small delay
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      // Add a small delay to ensure the transition is complete
       setTimeout(() => {
         inputRef.current?.focus();
       }, 100);
@@ -86,14 +97,24 @@ export default function ChatBot() {
     setIsLoading(true);
 
     try {
+      // ✅ MODIFIED: Include session_id in the request
+      const requestBody: { question: string; session_id?: string | null } = {
+        question: questionText,
+      };
+
+      // Only include session_id if it exists
+      if (sessionId) {
+        requestBody.session_id = sessionId;
+      }
+
+      console.log('Sending request with:', requestBody);
+
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          question: questionText,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -101,6 +122,16 @@ export default function ChatBot() {
       }
 
       const data = await response.json();
+      console.log('Received response:', data);
+
+      // ✅ ADD: Store session_id from response
+      if (data.session_id && !sessionId) {
+        setSessionId(data.session_id);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('chat_session_id', data.session_id);
+          console.log('Saved new session_id:', data.session_id);
+        }
+      }
 
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -124,6 +155,25 @@ export default function ChatBot() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // ✅ ADD: Function to clear conversation and reset session
+  const clearConversation = () => {
+    setMessages([]);
+    setSessionId(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('chat_session_id');
+      console.log('Cleared session_id');
+    }
+    // Add welcome message back
+    setMessages([
+      {
+        id: 'welcome',
+        text: "Hi! I'm Mohabbat's AI assistant. Ask me anything about his skills, projects, or experience! I respond as Mohabbat when he's unavailable",
+        sender: 'bot',
+        timestamp: new Date(),
+      },
+    ]);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -168,24 +218,46 @@ export default function ChatBot() {
                 <p className="text-white/80 text-xs">AI-powered assistant</p>
               </div>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-white/80 hover:text-white transition-colors"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <div className="flex items-center gap-2">
+              {/* ✅ ADD: Clear conversation button */}
+              <button
+                onClick={clearConversation}
+                className="text-white/80 hover:text-white transition-colors"
+                title="Clear conversation"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-white/80 hover:text-white transition-colors"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
 
           {/* Messages */}
