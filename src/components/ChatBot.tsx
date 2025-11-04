@@ -82,7 +82,7 @@ export default function ChatBot() {
   }, [isOpen]);
 
   const sendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
+    if (!inputValue.trim() || isLoading) return; // ✅ This prevents sending while loading
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -93,16 +93,14 @@ export default function ChatBot() {
 
     setMessages((prev) => [...prev, userMessage]);
     const questionText = inputValue;
-    setInputValue('');
+    setInputValue(''); // ✅ Clear immediately so user can type next message
     setIsLoading(true);
 
     try {
-      // ✅ MODIFIED: Include session_id in the request
       const requestBody: { question: string; session_id?: string | null } = {
         question: questionText,
       };
 
-      // Only include session_id if it exists
       if (sessionId) {
         requestBody.session_id = sessionId;
       }
@@ -124,7 +122,6 @@ export default function ChatBot() {
       const data = await response.json();
       console.log('Received response:', data);
 
-      // ✅ ADD: Store session_id from response
       if (data.session_id && !sessionId) {
         setSessionId(data.session_id);
         if (typeof window !== 'undefined') {
@@ -156,6 +153,17 @@ export default function ChatBot() {
       setIsLoading(false);
     }
   };
+
+
+
+  // const handleKeyPress = (e: React.KeyboardEvent) => {
+  //   if (e.key === 'Enter' && !e.shiftKey) {
+  //     e.preventDefault();
+  //     sendMessage();
+  //     // The refocus is now handled in sendMessage's finally block
+  //   }
+  // };
+
 
   // ✅ ADD: Function to clear conversation and reset session
   const clearConversation = () => {
@@ -311,7 +319,7 @@ export default function ChatBot() {
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything..."
                 className="flex-1 px-3 py-2 md:px-4 text-xs md:text-sm rounded-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-400"
-                disabled={isLoading}
+                // readOnly={isLoading}
               />
               <button
                 onClick={sendMessage}
