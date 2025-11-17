@@ -53,7 +53,7 @@ export default function ChatBot() {
       setMessages([
         {
           id: 'welcome',
-          text: "Hi! I'm Mohabbat's AI assistant. Ask me anything about his skills, projects, or experience! I respond as Mohabbat when he's unavailable",
+          text: "Hi! I'm Mohabbat's AI assistant. Ask me anything about his skills, projects, or experience! I respond as Mohabbat when he's unavailable.\n\nNote: First response may take ~30 seconds as the system initializes.",
           sender: 'bot',
           timestamp: new Date(),
         },
@@ -177,7 +177,7 @@ export default function ChatBot() {
     setMessages([
       {
         id: 'welcome',
-        text: "Hi! I'm Mohabbat's AI assistant. Ask me anything about his skills, projects, or experience! I respond as Mohabbat when he's unavailable",
+        text: "Hi! I'm Mohabbat's AI assistant. Ask me anything about his skills, projects, or experience! I respond as Mohabbat when he's unavailable.\n\nNote: First response may take ~30 seconds as the system initializes.",
         sender: 'bot',
         timestamp: new Date(),
       },
