@@ -45,7 +45,7 @@ const projects: Project[] = [
         title: 'Tiktok-Fullstack-Project',
         description: 'A full-stack TikTok clone implementing video uploads, likes, favorites, commenting, Shearing, realtime chat system and user authentication. The project incorporates prompt engineering techniques. ',
         tags: ['Django', 'DRF', 'React','Websocket'],
-        link: '#',
+        link: 'https://tiktok-fullstack-project.vercel.app/',
         github: '#',
         image: '/projects_img/project4.png',
     },
