@@ -15,6 +15,15 @@ interface Project {
 const projects: Project[] = [
     {
         id: 1,
+        title: 'RAG Content Platform',
+        description: 'An advanced backend system powered by RAG (Retrieval-Augmented Generation) technology. Features smart blog indexing with vector database for interactive Q&A, plus a private study assistant that summarizes documents. Built as a centralized API for seamless web and mobile integration.',
+        tags: ['RAG', 'Vector DB', 'LLM', 'Python', 'REST API', 'AI/ML'],
+        link: undefined,
+        github: "https://github.com/Andrew-Velox/Mega-Project",
+        image: '/projects_img/project5.png',
+    },
+    {
+        id: 2,
         title: 'Meow Chat',
         description: 'A modern, Discord-inspired real-time chat application implemented with Django and WebSockets. It supports private messaging, group conversations, file sharing, and a polished dark-themed user interface. Demo credentials: user1 / demo1234.',
         tags: ['Django', 'Webhook', 'HTMX','n8n','AI APIs'],
@@ -23,7 +32,7 @@ const projects: Project[] = [
         image: '/projects_img/project1.png',
     },
     {
-        id: 2,
+        id: 3,
         title: 'Mew Shop',
         description: 'A modern, responsive Next.js website featuring a comprehensive navigation bar, an engaging homepage, and an SEO-optimized structure prepared for integration with a Django backend API.',
         tags: ['Django', 'DRF', 'React', 'Next.js', 'Telwind CSS'],
@@ -32,7 +41,7 @@ const projects: Project[] = [
         image: '/projects_img/project2.png',
     },
     {
-        id: 3,
+        id: 4,
         title: 'CF Fetcher',
         description: 'A Chrome extension that retrieves accepted Codeforces submissions and compiles them into a ZIP archive containing rating-organized README.md files. The archive can be uploaded to a GitHub repository to document and showcase problem-solving accomplishments.',
         tags: ['Python', 'Java Script', 'HTML'],
@@ -41,13 +50,22 @@ const projects: Project[] = [
         image: '/projects_img/project3.png',
     },
     {
-        id: 4,
+        id: 5,
         title: 'Tiktok-Fullstack-Project',
         description: 'A full-stack TikTok clone implementing video uploads, likes, favorites, commenting, Shearing, realtime chat system and user authentication. The project incorporates prompt engineering techniques. ',
         tags: ['Django', 'DRF', 'React','Websocket'],
         link: 'https://tiktok-fullstack-project.vercel.app/',
         github: '#',
         image: '/projects_img/project4.png',
+    },
+    {
+        id: 6,
+        title: 'GUCC Website AI Chatbot',
+        description: 'Contributed a RAG-based AI chatbot assistant to my university computer club website. The club president can upload documents via Django admin panel, which are automatically indexed into a vector database. The chatbot intelligently answers queries based on the uploaded content.',
+        tags: ['RAG', 'Django', 'Vector DB', 'LLM', 'Python',],
+        link: undefined,
+        github: 'https://github.com/GreenUniversityComputerClub',
+        image: '/projects_img/club_web_contribution.png',
     },
 ];
 
