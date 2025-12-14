@@ -33,6 +33,13 @@ const achievementsData = [
 				date: 'February 22, 2025',
 				place: 'Dhaka, Bangladesh',
 			},
+			{
+				title: 'BUBT IUCPC 2025',
+				link: 'https://toph.co/c/bubt-inter-university-collaborative',
+				rank: '36',
+				date: 'November 29, 2025',
+				place: 'Dhaka, Bangladesh',
+			},
 		],
 	},
 	{

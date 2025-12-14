@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import Navbar from "../../components/Navbar";
 
 export const metadata: Metadata = {
-  title: 'About - Andrew-Velox',
-  description: 'Learn more about Andrew-Velox - Computer Science student',
+  title: 'About - Mohabbat',
+  description: 'Learn more about Mohabbat - Computer Science student',
 };
 
 export default function AboutLayout({
